@@ -7,7 +7,7 @@
     
  */
 
-;!function(win){    
+;!function(win){
 "use strict";
 
 var doc = document, query = 'querySelectorAll', claname = 'getElementsByClassName', S = function(s){
@@ -197,6 +197,9 @@ win.layer = {
   }
 };
 
+
+
+//这个js加载完以后，首先执行这里。
 'function' == typeof define ? define(function() {
   return layer;
 }) : function(){

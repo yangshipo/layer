@@ -10,6 +10,7 @@
 ;!function(window, undefined){
 "use strict";
 
+  //定义参数
 var $, win, ready = {
   getPath: function(){
     var js = document.scripts, script = js[js.length - 1], jsPath = script.src;
@@ -156,6 +157,7 @@ var layer = {
   }
 };
 
+  //构造函数
 var Class = function(setings){  
   var that = this;
   that.index = ++layer.index;
