@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="btn" type="button" onclick="btnclick()">button</button>
+<script type="text/javascript" src="./layer.js"></script>
+<script>
+
+    //    document.getElementById('btn')
+    //            .addEventListener('click', btnclick, false);
+
+    var btnclick = function () {
+
+        layer.open({
+            content: '通过style设置你想要的样式',
+            style: 'background-color:#09C1FF; color:#fff; border:none;',
+            time: 2
+        });
+    }
+
+</script>
+</body>
+</html>

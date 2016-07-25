@@ -27,8 +27,10 @@ var ready = {
   extend: function(obj){
     var newobj = JSON.parse(JSON.stringify(config));
     for(var i in obj){
+      console.log(i);
       newobj[i] = obj[i];
     }
+    console.log(newobj);
     return newobj;
   }, 
   timer: {}, end: {}
@@ -54,7 +56,13 @@ ready.touch = function(elem, fn){
 
 var index = 0, classs = ['layermbox'], Layer = function(options){
   var that = this;
+
+  console.log(typeof  options);
+
+  //生成配置对象；如何解决配置与默认配置中重合的部分？循环部分的i为key。
   that.config = ready.extend(options);
+
+  //有了配置以后就可以根据配置进行显示了
   that.view();
 };
 
@@ -203,13 +211,17 @@ win.layer = {
 'function' == typeof define ? define(function() {
   return layer;
 }) : function(){
-  
+
+  //这一句是干什么的?获取当前Javascript脚本文件的路径，在特定场景下可能需要，比如写模块加载器。
   var js = document.scripts, script = js[js.length - 1], jsPath = script.src;
+
   var path = jsPath.substring(0, jsPath.lastIndexOf("/") + 1);
-  
+  // console.log(path);
+
   //如果合并方式，则需要单独引入layer.css
   if(script.getAttribute('merge')) return; 
-  
+
+  //在document的头部引入css文件
   document.head.appendChild(function(){
     var link = doc.createElement('link');
     link.href = path + 'need/layer.css';
@@ -222,3 +234,22 @@ win.layer = {
 }();
 
 }(window);
+
+/**
+ * 执行过程：
+ * 1、首先修改document,在里面添加css的链接，(使用了简单的加载器)。
+ * 2、调用open()方法，通过调用Layer()的构造方法，实例化对象。
+ * 3、Layer()构造方法内完成：生成配置对象；根据配置进行显示
+ * 4、this.view()根据配置进行显示（注意view是公共方法）：
+ *
+ * 5、action()待命，根据用户的后续操作调用相应的函数。
+ *      首先判断是否配置了该操作，如果有，再根据touch事件或者settimeout来执行操作。
+ * 6、通过win.layer将layer绑定到window从而向外部公开api.
+ */
+
+/**
+ * 疑问？
+ * 1、that = this
+ * 2、prototype如何解决多个弹框的继承问题？
+ * 3、向外部公开api是通过绑定到window上面，为什么不是var Layer ={}；那样在外面不是照样可以用？
+ */
