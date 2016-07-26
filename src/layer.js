@@ -55,18 +55,34 @@ var layer = {
   use: function(module, fn, readyMethod){
     var i = 0, head = $('head')[0];
     var module = module.replace(/\s/g, '');
+
+    console.log('module = ' + module);
+
+    // //.test(String) 如果字符串能和正则表达式匹配return true。
     var iscss = /\.css$/.test(module);
+
+    //判断需要加载的是css文件还是js文件。
     var node = document.createElement(iscss ? 'link' : 'script');
+
+    //给这个产生的标签添加id属性
     var id = 'layui_layer_' + module.replace(/\.|\//g, '');
+
+    //判断是否有path,如果没有，则直接结束就可以了。
+    //layer.path全局变量，"http://localhost:63342/layer/src/"；这个地方值得学习。
     if(!layer.path) return;
+
+    //添加属性
     if(iscss){
       node.rel = 'stylesheet';
     }
     node[iscss ? 'href' : 'src'] = /^http:\/\//.test(module) ? module : layer.path + module;
     node.id = id;
+
+    //添加到相应的位置，这里使用到了jQuery。这里是怎么向头部添加引入标签的。
     if(!$('#'+ id)[0]){
       head.appendChild(node);
     }
+
     //轮询加载就绪
     ;(function poll() {
       ;(iscss ? parseInt($('#'+id).css('width')) === 1989 : layer[readyMethod||id]) ? function(){
@@ -161,6 +177,8 @@ var layer = {
 var Class = function(setings){  
   var that = this;
   that.index = ++layer.index;
+
+  //jQuery.extend(),将多个对象合并到一起。这里有技巧：小对象都不受影响，合并到that.config.
   that.config = $.extend({}, that.config, ready.config, setings);
   that.creat();
 };
@@ -654,6 +672,7 @@ ready.rescollbar = function(index){
 
 /** 内置成员 */
 
+
 window.layer = layer;
 
 //获取子iframe的DOM
@@ -1077,3 +1096,26 @@ ready.run = function(){
 }();
 
 }(window);
+
+
+/**
+ * 执行过程：
+ * 1、首先执行ready.run()。使用layer.use('')完成对css的加载。
+ * 2、在执行new Class(deliver)，deliver:交付。
+ * 3、
+ */
+
+/**
+ * 疑问？
+ * 1、layer.use()加载器？
+ * 2、//.test()都是正则表达式，正则表达式是用来匹配字符串的。
+ * 3、
+ */
+
+/**
+ * 1、大致读框架----
+ * 2、view---------
+ * 3、action-------
+ * 4、解决疑问------
+ * 5、总结---------
+ */
