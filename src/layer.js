@@ -50,7 +50,9 @@ var layer = {
     }()) : fn);
     return this;
   },
-  
+
+
+  //加载器
   //载入配件
   use: function(module, fn, readyMethod){
     var i = 0, head = $('head')[0];
@@ -84,6 +86,7 @@ var layer = {
     }
 
     //轮询加载就绪
+    //轮询加载是干什么的？
     ;(function poll() {
       ;(iscss ? parseInt($('#'+id).css('width')) === 1989 : layer[readyMethod||id]) ? function(){
         fn && fn();
